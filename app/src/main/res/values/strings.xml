@@ -10,4 +10,5 @@
     <string name="input_tel">Input tel</string>
     <string name="no_message">No message</string>
     <string name="activity_not_found">Activity not found</string>
+    <string name="incorrect_phone_number">Incorrect phone number</string>
 </resources>

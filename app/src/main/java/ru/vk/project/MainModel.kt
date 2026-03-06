@@ -3,6 +3,7 @@ package ru.vk.project
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.telephony.PhoneNumberUtils
 import android.widget.Toast
 
 class MainModel : MainIntentHandler {
@@ -25,6 +26,13 @@ class MainModel : MainIntentHandler {
     private fun handleCallFriendIntent(intent: MainIntent.CallFriendIntent) {
         Intent(Intent.ACTION_DIAL).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            if (!PhoneNumberUtils.isGlobalPhoneNumber(intent.tel)) {
+                Toast.makeText(
+                    intent.context, intent.context.getString(R.string.incorrect_phone_number),
+                    Toast.LENGTH_LONG
+                ).show()
+                return
+            }
             setData(intent.tel.fromTelToUri())
             withActivityNotFoundCatching(intent.context) {
                 intent.context.startActivity(this)
