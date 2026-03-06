@@ -9,4 +9,5 @@
     <string name="share_text">Поделиться текстом</string>
     <string name="input_tel">Input tel</string>
     <string name="no_message">Сообщение отсутствует</string>
+    <string name="activity_not_found">Приложение не обнаружено</string>
 </resources>
