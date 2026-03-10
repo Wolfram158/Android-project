@@ -23,39 +23,39 @@ class MainModel : MainActionHandler {
         }
     }
 
-    private fun handleCallFriendAction(intent: MainAction.CallFriendAction) {
-        if (!PhoneNumberUtils.isGlobalPhoneNumber(intent.tel)) {
+    private fun handleCallFriendAction(action: MainAction.CallFriendAction) {
+        if (!PhoneNumberUtils.isGlobalPhoneNumber(action.tel)) {
             Toast.makeText(
-                intent.context, intent.context.getString(R.string.incorrect_phone_number),
+                action.context, action.context.getString(R.string.incorrect_phone_number),
                 Toast.LENGTH_LONG
             ).show()
             return
         }
         Intent(Intent.ACTION_DIAL).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            setData(intent.tel.fromTelToUri())
-            withActivityNotFoundCatching(intent.context) {
-                intent.context.startActivity(this)
+            setData(action.tel.fromTelToUri())
+            withActivityNotFoundCatching(action.context) {
+                action.context.startActivity(this)
             }
         }
     }
 
-    private fun handleOpenSecondActivityAction(intent: MainAction.OpenSecondActivityAction) {
-        Intent(intent.context, SecondActivity::class.java).apply {
+    private fun handleOpenSecondActivityAction(action: MainAction.OpenSecondActivityAction) {
+        Intent(action.context, SecondActivity::class.java).apply {
             type = "text/plain"
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            putExtra(Intent.EXTRA_TEXT, intent.text)
-            intent.context.startActivity(this)
+            putExtra(Intent.EXTRA_TEXT, action.text)
+            action.context.startActivity(this)
         }
     }
 
-    private fun handleShareTextAction(intent: MainAction.ShareTextAction) {
+    private fun handleShareTextAction(action: MainAction.ShareTextAction) {
         Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            putExtra(Intent.EXTRA_TEXT, intent.text)
-            withActivityNotFoundCatching(intent.context) {
-                intent.context.startActivity(this)
+            putExtra(Intent.EXTRA_TEXT, action.text)
+            withActivityNotFoundCatching(action.context) {
+                action.context.startActivity(this)
             }
         }
     }
