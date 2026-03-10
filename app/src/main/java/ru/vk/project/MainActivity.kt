@@ -30,17 +30,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOnClickListeners() {
         binding.openSecondActivityBtn.setOnClickListener {
-            model.dispatchIntent(
-                MainIntent.OpenSecondActivityIntent(
+            model.dispatchAction(
+                MainAction.OpenSecondActivityAction(
                     binding.msgEditText.text.toString(),
-                    applicationContext
+                    this
                 )
             )
         }
 
         binding.shareTextBtn.setOnClickListener {
-            model.dispatchIntent(
-                MainIntent.ShareTextIntent(
+            model.dispatchAction(
+                MainAction.ShareTextAction(
                     binding.shareEditText.text.toString(),
                     applicationContext
                 )
@@ -48,8 +48,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.callFriendBtn.setOnClickListener {
-            model.dispatchIntent(
-                MainIntent.CallFriendIntent(
+            model.dispatchAction(
+                MainAction.CallFriendAction(
                     binding.telEditText.text.toString(),
                     applicationContext
                 )

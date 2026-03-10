@@ -6,33 +6,33 @@ import android.content.Intent
 import android.telephony.PhoneNumberUtils
 import android.widget.Toast
 
-class MainModel : MainIntentHandler {
-    override fun dispatchIntent(intent: MainIntent) {
-        when (intent) {
-            is MainIntent.CallFriendIntent -> {
-                handleCallFriendIntent(intent)
+class MainModel : MainActionHandler {
+    override fun dispatchAction(action: MainAction) {
+        when (action) {
+            is MainAction.CallFriendAction -> {
+                handleCallFriendAction(action)
             }
 
-            is MainIntent.OpenSecondActivityIntent -> {
-                handleOpenSecondActivityIntent(intent)
+            is MainAction.OpenSecondActivityAction -> {
+                handleOpenSecondActivityAction(action)
             }
 
-            is MainIntent.ShareTextIntent -> {
-                handleShareTextIntent(intent)
+            is MainAction.ShareTextAction -> {
+                handleShareTextAction(action)
             }
         }
     }
 
-    private fun handleCallFriendIntent(intent: MainIntent.CallFriendIntent) {
+    private fun handleCallFriendAction(intent: MainAction.CallFriendAction) {
+        if (!PhoneNumberUtils.isGlobalPhoneNumber(intent.tel)) {
+            Toast.makeText(
+                intent.context, intent.context.getString(R.string.incorrect_phone_number),
+                Toast.LENGTH_LONG
+            ).show()
+            return
+        }
         Intent(Intent.ACTION_DIAL).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            if (!PhoneNumberUtils.isGlobalPhoneNumber(intent.tel)) {
-                Toast.makeText(
-                    intent.context, intent.context.getString(R.string.incorrect_phone_number),
-                    Toast.LENGTH_LONG
-                ).show()
-                return
-            }
             setData(intent.tel.fromTelToUri())
             withActivityNotFoundCatching(intent.context) {
                 intent.context.startActivity(this)
@@ -40,7 +40,7 @@ class MainModel : MainIntentHandler {
         }
     }
 
-    private fun handleOpenSecondActivityIntent(intent: MainIntent.OpenSecondActivityIntent) {
+    private fun handleOpenSecondActivityAction(intent: MainAction.OpenSecondActivityAction) {
         Intent(intent.context, SecondActivity::class.java).apply {
             type = "text/plain"
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -49,7 +49,7 @@ class MainModel : MainIntentHandler {
         }
     }
 
-    private fun handleShareTextIntent(intent: MainIntent.ShareTextIntent) {
+    private fun handleShareTextAction(intent: MainAction.ShareTextAction) {
         Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
