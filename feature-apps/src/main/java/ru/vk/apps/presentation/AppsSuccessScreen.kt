@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,18 +29,18 @@ import ru.vk.common.presentation.theme.RuStoreBlue
 @Composable
 fun AppsSuccessScreen(
     apps: List<App>,
-    onAppClick: () -> Unit
+    onAppClick: () -> Unit,
+    onAppLogoClick: (String) -> Unit,
+    modifier: Modifier
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = modifier
             .background(RuStoreBlue)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, top = 48.dp, end = 16.dp)
-                .weight(0.15f),
+                .padding(start = 16.dp, top = 48.dp, end = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -65,8 +64,8 @@ fun AppsSuccessScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(0.85f)
                 .background(RuStoreBlue)
+                .padding(top = 16.dp)
                 .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
         ) {
             items(
@@ -77,6 +76,9 @@ fun AppsSuccessScreen(
                         apps[index],
                         {
                             onAppClick()
+                        },
+                        {
+                            onAppLogoClick(it)
                         },
                         iconSize = 50.dp
                     )

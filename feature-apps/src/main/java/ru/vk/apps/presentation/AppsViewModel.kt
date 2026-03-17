@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import ru.vk.apps.di.IoDispatcher
@@ -25,6 +27,15 @@ class AppsViewModel @Inject constructor(
             SharingStarted.Lazily,
             AppsState.Error
         )
+
+    private val _events = Channel<AppsScreenEvents>(Channel.CONFLATED)
+    val events = _events.receiveAsFlow()
+
+    fun clickAppLogo(name: String) {
+        viewModelScope.launch(ioDispatcher) {
+            _events.send(AppsScreenEvents.AppLogoClicked(name))
+        }
+    }
 
     fun initAppsLoading() {
         viewModelScope.launch(ioDispatcher) {
