@@ -40,8 +40,7 @@ fun AppsSuccessScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, top = 48.dp, end = 16.dp)
-                .weight(0.15f),
+                .padding(start = 16.dp, top = 48.dp, end = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -65,8 +64,8 @@ fun AppsSuccessScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(0.85f)
                 .background(RuStoreBlue)
+                .padding(top = 16.dp)
                 .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
         ) {
             items(
