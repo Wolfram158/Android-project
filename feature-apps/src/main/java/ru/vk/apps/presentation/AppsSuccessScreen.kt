@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,11 +29,12 @@ import ru.vk.common.presentation.theme.RuStoreBlue
 @Composable
 fun AppsSuccessScreen(
     apps: List<App>,
-    onAppClick: () -> Unit
+    onAppClick: () -> Unit,
+    onAppLogoClick: (String) -> Unit,
+    modifier: Modifier
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = modifier
             .background(RuStoreBlue)
     ) {
         Row(
@@ -77,6 +77,9 @@ fun AppsSuccessScreen(
                         apps[index],
                         {
                             onAppClick()
+                        },
+                        {
+                            onAppLogoClick(it)
                         },
                         iconSize = 50.dp
                     )

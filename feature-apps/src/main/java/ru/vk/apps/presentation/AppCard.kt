@@ -1,6 +1,7 @@
 package ru.vk.apps.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,6 +28,7 @@ import ru.vk.apps.domain.model.App
 fun AppCard(
     app: App,
     onAppClick: () -> Unit,
+    onAppLogoClick: (String) -> Unit,
     iconSize: Dp = 30.dp
 ) {
     Card(
@@ -46,7 +48,11 @@ fun AppCard(
             AsyncImage(
                 app.iconUrl,
                 null,
-                modifier = Modifier.size(iconSize)
+                modifier = Modifier
+                    .size(iconSize)
+                    .clickable {
+                        onAppLogoClick(app.name)
+                    }
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column(
