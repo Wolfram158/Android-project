@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.flattenMerge
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
+import ru.vk.apps.data.mapper.AppDtoMapper
 import ru.vk.apps.domain.model.AppsState
 import ru.vk.apps.domain.repository.AppsRepository
 import ru.vk.apps.test_data.TestData
@@ -17,7 +18,8 @@ import javax.inject.Inject
 
 @ViewModelScoped
 class AppsTestRepository @Inject constructor(
-    private val testData: TestData
+    private val testData: TestData,
+    private val appDtoMapper: AppDtoMapper
 ) : AppsRepository {
     private val signal = MutableSharedFlow<Unit>()
     private val appsStateFlow = MutableStateFlow<AppsState>(AppsState.Error)
@@ -44,7 +46,7 @@ class AppsTestRepository @Inject constructor(
                 delay(3000)
                 appsStateFlow.update {
                     AppsState.Success(
-                        testData.apps
+                        appDtoMapper.mapAppDtosToDomains(testData.apps)
                     )
                 }
             }
