@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import ru.vk.apps.di.IoDispatcher
+import ru.vk.common.di.IoDispatcher
 import ru.vk.apps.domain.model.AppsState
 import ru.vk.apps.domain.usecase.GetAppsStateFlowUseCase
 import ru.vk.apps.domain.usecase.InitAppsLoadingUseCase
