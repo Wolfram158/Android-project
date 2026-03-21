@@ -1,4 +1,4 @@
-package ru.vk.apps.di
+package ru.vk.common.di
 
 import javax.inject.Qualifier
 

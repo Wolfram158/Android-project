@@ -17,7 +17,7 @@ import ru.vk.apps.test_data.TestData
 import javax.inject.Inject
 
 @ViewModelScoped
-class AppsTestRepository @Inject constructor(
+class AppsTestRepositoryImpl @Inject constructor(
     private val testData: TestData,
     private val appDtoMapper: AppDtoMapper
 ) : AppsRepository {
