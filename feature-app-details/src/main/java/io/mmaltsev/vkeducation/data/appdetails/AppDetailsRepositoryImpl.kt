@@ -8,10 +8,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import ru.vk.common.data.remote.ApiService
 import javax.inject.Inject
 
 class AppDetailsRepositoryImpl @Inject constructor(
-    private val appApi: AppApi,
+    private val appApi: ApiService,
     private val dao: AppDetailsDao,
     private val mapper: AppDetailsMapper,
     private val entityMapper: AppDetailsEntityMapper,

@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import ru.vk.common.di.IoDispatcher
 import ru.vk.apps.domain.model.AppsState
 import ru.vk.apps.domain.usecase.GetAppsStateFlowUseCase
 import ru.vk.apps.domain.usecase.InitAppsLoadingUseCase
+import ru.vk.common.di.IoDispatcher
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,9 +24,13 @@ class AppsViewModel @Inject constructor(
     val appsStateFlow = getAppsStateFlowUseCase()
         .stateIn(
             viewModelScope,
-            SharingStarted.Lazily,
-            AppsState.Error
+            SharingStarted.Eagerly,
+            AppsState.Loading
         )
+
+    init {
+        initAppsLoading()
+    }
 
     private val _events = Channel<AppsScreenEvents>(Channel.CONFLATED)
     val events = _events.receiveAsFlow()

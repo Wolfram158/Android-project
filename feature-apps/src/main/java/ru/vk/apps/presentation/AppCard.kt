@@ -71,7 +71,7 @@ fun AppCard(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = app.category.name,
+                    text = app.category,
                     style = MaterialTheme.typography.labelMedium.copy(color = Color.Gray)
                 )
             }

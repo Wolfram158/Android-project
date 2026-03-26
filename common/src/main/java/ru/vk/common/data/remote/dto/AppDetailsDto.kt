@@ -1,4 +1,4 @@
-package io.mmaltsev.vkeducation.data.appdetails
+package ru.vk.common.data.remote.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
