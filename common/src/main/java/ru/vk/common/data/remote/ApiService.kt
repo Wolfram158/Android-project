@@ -5,7 +5,7 @@ import retrofit2.http.Path
 import ru.vk.common.data.remote.dto.AppDetailsDto
 import ru.vk.common.data.remote.dto.AppDto
 
-interface ApiService {
+internal interface ApiService {
     @GET("catalog")
     suspend fun getApps(): List<AppDto>
 

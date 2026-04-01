@@ -13,7 +13,8 @@ import io.mmaltsev.vkeducation.data.appdetails.local.AppDetailsDao
 import io.mmaltsev.vkeducation.data.appdetails.local.AppDetailsEntityMapper
 import io.mmaltsev.vkeducation.domain.appdetails.AppDetailsRepository
 import io.mmaltsev.vkeducation.domain.appdetails.GetAppDetailsUseCase
-import ru.vk.common.data.remote.ApiService
+import ru.vk.common.data.remote.RemoteDataSource
+import ru.vk.common.di.RetrofitDataSource
 import javax.inject.Singleton
 
 @Module
@@ -62,7 +63,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideAppDetailsRepository(
-        api: ApiService,
+        @RetrofitDataSource api: RemoteDataSource,
         dao: AppDetailsDao,
         mapper: AppDetailsMapper,
         entityMapper: AppDetailsEntityMapper

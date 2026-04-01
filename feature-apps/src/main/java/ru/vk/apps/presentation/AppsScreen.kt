@@ -16,7 +16,7 @@ import ru.vk.common.presentation.Loading
 
 @Composable
 fun AppsScreen(
-    onAppClick: () -> Unit
+    onAppClick: (id: String) -> Unit
 ) {
     val viewModel = hiltViewModel<AppsViewModel>()
     val appsState = viewModel.appsStateFlow.collectAsState()
@@ -41,8 +41,8 @@ fun AppsScreen(
             is AppsState.Success -> {
                 AppsSuccessScreen(
                     value.apps,
-                    {
-                        onAppClick()
+                    { id ->
+                        onAppClick(id)
                     },
                     {
                         viewModel.clickAppLogo(it)

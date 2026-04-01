@@ -1,12 +1,10 @@
 package io.mmaltsev.vkeducation.domain.appdetails
 
-import ru.vk.common.domain.Category
-
 data class AppDetails(
     val id: String,
     val name: String,
     val developer: String,
-    val category: Category,
+    val category: String,
     val ageRating: Int,
     val size: Float,
     val iconUrl: String,
