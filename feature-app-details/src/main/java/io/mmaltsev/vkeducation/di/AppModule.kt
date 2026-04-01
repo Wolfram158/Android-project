@@ -2,6 +2,8 @@ package io.mmaltsev.vkeducation.di
 
 import android.app.Application
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,6 +15,7 @@ import io.mmaltsev.vkeducation.data.appdetails.local.AppDetailsDao
 import io.mmaltsev.vkeducation.data.appdetails.local.AppDetailsEntityMapper
 import io.mmaltsev.vkeducation.domain.appdetails.AppDetailsRepository
 import io.mmaltsev.vkeducation.domain.appdetails.GetAppDetailsUseCase
+import io.mmaltsev.vkeducation.domain.appdetails.ToggleWishlistUseCase
 import ru.vk.common.data.remote.RemoteDataSource
 import ru.vk.common.di.RetrofitDataSource
 import javax.inject.Singleton
@@ -34,12 +37,25 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideToggleWishlistUseCase(repository: AppDetailsRepository): ToggleWishlistUseCase {
+        return ToggleWishlistUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
     fun provideDatabase(app: Application): AppDatabase {
         return Room.databaseBuilder(
             app,
             AppDatabase::class.java,
             AppDatabase.DATABASE_NAME
-        ).build()
+        ).addMigrations(
+            object : Migration(1, 2) {
+                override fun migrate(db: SupportSQLiteDatabase) {
+                    db.execSQL("alter table ${AppDatabase.APP_DETAILS_TABLE} add column isInWishlist integer not null default 0")
+                }
+            }
+        )
+            .build()
     }
 
     @Provides

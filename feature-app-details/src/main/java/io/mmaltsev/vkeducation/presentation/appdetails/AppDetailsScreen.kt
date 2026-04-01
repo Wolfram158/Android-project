@@ -66,6 +66,9 @@ fun AppDetailsScreen(
                         // TODO: Открыть предыдущий экран через Jetpack Navigation
                         viewModel.showUnderDevelopmentMessage()
                     },
+                    onToggleWishlist = {
+                        viewModel.toggleWishlist()
+                    },
                     onShareClick = {
                         viewModel.showUnderDevelopmentMessage()
                     },
