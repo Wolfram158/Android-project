@@ -6,6 +6,7 @@ import io.mmaltsev.vkeducation.domain.appdetails.AppDetails
 import io.mmaltsev.vkeducation.domain.appdetails.AppDetailsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import ru.vk.common.data.remote.RemoteDataSource
@@ -31,6 +32,13 @@ class AppDetailsRepositoryImpl @Inject constructor(
                 }
                 domain
             }
+        }
+    }
+
+    override suspend fun toggleWishlist(id: String) {
+        val currentEntity = dao.getAppDetails(id).firstOrNull()
+        currentEntity?.let {
+            dao.updateWishlistStatus(id, !it.isInWishlist)
         }
     }
 }

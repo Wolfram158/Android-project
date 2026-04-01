@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.mmaltsev.vkeducation.domain.appdetails.GetAppDetailsUseCase
+import io.mmaltsev.vkeducation.domain.appdetails.ToggleWishlistUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
@@ -22,6 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AppDetailsViewModel @Inject constructor(
     private val getAppDetailsUseCase: GetAppDetailsUseCase,
+    private val toggleWishlistUseCase: ToggleWishlistUseCase,
     private val savedStateHandle: SavedStateHandle,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
@@ -37,6 +39,10 @@ class AppDetailsViewModel @Inject constructor(
     val events = _events.receiveAsFlow()
 
     init {
+        observeAppDetails()
+    }
+
+    private fun observeAppDetails() {
         viewModelScope.launch(ioDispatcher) {
             savedId.collect { id ->
                 if (id != null) {
@@ -76,6 +82,14 @@ class AppDetailsViewModel @Inject constructor(
                     appDetails = appDetails,
                     descriptionCollapsed = false
                 )
+            }
+        }
+    }
+
+    fun toggleWishlist() {
+        viewModelScope.launch {
+            savedStateHandle.get<String>(APP_DETAILS_KEY)?.let { id ->
+                toggleWishlistUseCase(id)
             }
         }
     }

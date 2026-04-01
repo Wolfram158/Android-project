@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.mmaltsev.vkeducation.domain.appdetails.AppDetails
-import ru.vk.common.domain.Category
 import ru.vk.common.presentation.theme.VkEducationTheme
 
 @Composable
@@ -25,6 +24,7 @@ fun AppDetailsContent(
     onInstallClick: () -> Unit,
     onReadMoreClick: () -> Unit,
     onDeveloperClick: () -> Unit,
+    onToggleWishlist: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val appDetails = content.appDetails
@@ -32,7 +32,9 @@ fun AppDetailsContent(
 
     Column(modifier) {
         Toolbar(
+            content.appDetails.isInWishlist,
             onBackClick = onBackClick,
+            onToggleWishlist = onToggleWishlist,
             onShareClick = onShareClick,
         )
         Spacer(Modifier.height(8.dp))
@@ -106,6 +108,7 @@ private fun Preview() {
             onShareClick = {},
             onInstallClick = {},
             onDeveloperClick = {},
+            onToggleWishlist = {},
             modifier = Modifier.fillMaxSize(),
         )
     }
