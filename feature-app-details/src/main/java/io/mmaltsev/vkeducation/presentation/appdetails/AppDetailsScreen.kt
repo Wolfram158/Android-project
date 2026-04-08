@@ -15,14 +15,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import io.mmaltsev.vkeducation.R
 import kotlinx.coroutines.flow.Flow
 
 @Composable
-fun AppDetailsScreen() {
-    val viewModel = hiltViewModel<AppDetailsViewModel>()
+fun AppDetailsScreen(
+    viewModel: AppDetailsViewModel,
+    onRefreshClick: () -> Unit
+) {
     val state by viewModel.state.collectAsState()
     val events = viewModel.events
 
@@ -51,7 +51,7 @@ fun AppDetailsScreen() {
 
             is AppDetailsState.Error -> {
                 AppDetailsError(
-                    onRefreshClick = { viewModel.getAppDetails() },
+                    onRefreshClick = onRefreshClick,
                     modifier = Modifier
                         .fillMaxSize()
                         .safeDrawingPadding()

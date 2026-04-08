@@ -8,10 +8,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import ru.vk.common.data.remote.RemoteDataSource
 import javax.inject.Inject
 
 class AppDetailsRepositoryImpl @Inject constructor(
-    private val appApi: AppApi,
+    private val remoteDataSource: RemoteDataSource,
     private val dao: AppDetailsDao,
     private val mapper: AppDetailsMapper,
     private val entityMapper: AppDetailsEntityMapper,
@@ -22,7 +23,7 @@ class AppDetailsRepositoryImpl @Inject constructor(
             if (entity != null) {
                 entityMapper.toDomain(entity)
             } else {
-                val dto = appApi.getAppDetails(id)
+                val dto = remoteDataSource.getAppDetails(id)
                 val domain = mapper.toDomain(dto)
                 val entity = entityMapper.toEntity(domain)
                 withContext(Dispatchers.IO) {

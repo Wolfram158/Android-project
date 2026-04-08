@@ -2,7 +2,6 @@ package io.mmaltsev.vkeducation.data.appdetails.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import ru.vk.common.domain.Category
 
 @Entity(tableName = "app_details")
 data class AppDetailsEntity(
@@ -10,7 +9,7 @@ data class AppDetailsEntity(
     val id: String,
     val name: String,
     val developer: String,
-    val category: Category,
+    val category: String,
     val ageRating: Int,
     val size: Float,
     val iconUrl: String,

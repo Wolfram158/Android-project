@@ -6,4 +6,4 @@ import kotlinx.serialization.Serializable
 object Apps
 
 @Serializable
-object AppDetails
+data class AppDetails(val id: String)

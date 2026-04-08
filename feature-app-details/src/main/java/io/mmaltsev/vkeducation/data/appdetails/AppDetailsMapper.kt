@@ -1,6 +1,7 @@
 package io.mmaltsev.vkeducation.data.appdetails
 
 import io.mmaltsev.vkeducation.domain.appdetails.AppDetails
+import ru.vk.common.data.remote.dto.AppDetailsDto
 
 class AppDetailsMapper {
     fun toDomain(dto: AppDetailsDto): AppDetails = AppDetails(

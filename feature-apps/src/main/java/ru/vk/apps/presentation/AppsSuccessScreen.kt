@@ -29,7 +29,7 @@ import ru.vk.common.presentation.theme.RuStoreBlue
 @Composable
 fun AppsSuccessScreen(
     apps: List<App>,
-    onAppClick: () -> Unit,
+    onAppClick: (id: String) -> Unit,
     onAppLogoClick: (String) -> Unit,
     modifier: Modifier
 ) {
@@ -75,7 +75,7 @@ fun AppsSuccessScreen(
                     AppCard(
                         apps[index],
                         {
-                            onAppClick()
+                            onAppClick(apps[index].id)
                         },
                         {
                             onAppLogoClick(it)

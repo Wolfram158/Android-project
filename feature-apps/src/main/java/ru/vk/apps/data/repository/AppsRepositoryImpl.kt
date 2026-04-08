@@ -2,7 +2,6 @@ package ru.vk.apps.data.repository
 
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flattenMerge
 import kotlinx.coroutines.flow.flow
@@ -10,14 +9,15 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 import ru.vk.apps.data.mapper.AppDtoMapper
 import ru.vk.apps.domain.model.AppsState
-import ru.vk.apps.test_data.TestData
+import ru.vk.common.data.remote.RemoteDataSource
+import ru.vk.common.di.RetrofitDataSource
 import javax.inject.Inject
 
 @ViewModelScoped
-class AppsTestRepositoryImpl @Inject constructor(
-    private val testData: TestData,
+class AppsRepositoryImpl @Inject constructor(
+    @param:RetrofitDataSource private val remoteDataSource: RemoteDataSource,
     private val appDtoMapper: AppDtoMapper
-) : AppsStateHolder(AppsState.Error) {
+) : AppsStateHolder(AppsState.Loading) {
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun getAppsStateFlow(): Flow<AppsState> {
         return flowOf(
@@ -33,11 +33,14 @@ class AppsTestRepositoryImpl @Inject constructor(
                 appsStateFlow.update {
                     AppsState.Loading
                 }
-                delay(3000)
                 appsStateFlow.update {
-                    AppsState.Success(
-                        appDtoMapper.mapAppDtosToDomains(testData.apps)
-                    )
+                    try {
+                        AppsState.Success(
+                            appDtoMapper.mapAppDtosToDomains(remoteDataSource.getApps())
+                        )
+                    } catch (_: Exception) {
+                        AppsState.Error
+                    }
                 }
             }
         }

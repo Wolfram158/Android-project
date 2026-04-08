@@ -2,12 +2,10 @@ package io.mmaltsev.vkeducation.di
 
 import android.app.Application
 import androidx.room.Room
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.mmaltsev.vkeducation.data.appdetails.AppApi
 import io.mmaltsev.vkeducation.data.appdetails.AppDetailsMapper
 import io.mmaltsev.vkeducation.data.appdetails.AppDetailsRepositoryImpl
 import io.mmaltsev.vkeducation.data.appdetails.local.AppDatabase
@@ -15,37 +13,13 @@ import io.mmaltsev.vkeducation.data.appdetails.local.AppDetailsDao
 import io.mmaltsev.vkeducation.data.appdetails.local.AppDetailsEntityMapper
 import io.mmaltsev.vkeducation.domain.appdetails.AppDetailsRepository
 import io.mmaltsev.vkeducation.domain.appdetails.GetAppDetailsUseCase
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
-import retrofit2.Retrofit
+import ru.vk.common.data.remote.RemoteDataSource
+import ru.vk.common.di.RetrofitDataSource
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-    @Provides
-    @Singleton
-    fun provideJson(): Json {
-        return Json {
-            ignoreUnknownKeys = true
-        }
-    }
-
-    @Provides
-    @Singleton
-    fun provideRetrofit(json: Json): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl("http://185.103.109.134")
-            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-            .build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideAppApi(retrofit: Retrofit): AppApi {
-        return retrofit.create(AppApi::class.java)
-    }
-
 //    @Provides
 //    @Singleton
 //    fun provideAppDetailsRepository(appApi: AppApi): AppDetailsRepository {
@@ -89,7 +63,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideAppDetailsRepository(
-        api: AppApi,
+        @RetrofitDataSource api: RemoteDataSource,
         dao: AppDetailsDao,
         mapper: AppDetailsMapper,
         entityMapper: AppDetailsEntityMapper
